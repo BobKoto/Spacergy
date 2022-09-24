@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - tagFrontBarrier
+  - Barrier
+  - BackgroundObject
+  - Face
+  - SurfaceSphereWave1
+  - WormholeSegment
+  - WormholeSegmentNonRigidbody
+  - Henry
+  - Satellite
+  - RogueTesla
+  - UISatNotch
+  - WormholeMenace
+  - ShieldSphere
+  - WormholePipe
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - FaceLayer
+  - WormholePipeLayer
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
