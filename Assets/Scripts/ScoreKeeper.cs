@@ -114,6 +114,8 @@ public class ScoreKeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var jp = PlayerPrefs.GetInt("JoyStickPosition");
+        Debug.Log("from Prefs our joystick position is " + jp);
         levelInProgress = SceneManager.GetActiveScene().buildIndex - 1; //subtract 1 to account for setup scenes 0 and 1 so we get 1 for level1, etc
                                                                         // if (SceneManager.GetActiveScene().buildIndex == 2)  // 3/27/22 start of segregating levels 1 and 2 
         if (levelInProgress == 1)

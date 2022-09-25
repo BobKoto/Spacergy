@@ -21,6 +21,7 @@ public class GameMenuScript : MonoBehaviour
     public Canvas canvasLevel1, canvasLevel2, canvasGameStart ;
     public Button level2Button; //just for changing "interactable" ---  level1Button so far is not modified in script
     private static bool level1IntroAlreadyDisplayed, level2IntroAlreadyDisplayed;
+    public static int joyStickPosition;
 
     private void Start()
     {
@@ -33,13 +34,18 @@ public class GameMenuScript : MonoBehaviour
         if (PlayerPrefs.HasKey("LevelToPlay"))
         {
             var x = PlayerPrefs.GetInt("LevelToPlay");
-            Debug.Log("FOUND A PLAYER PREF for LevelToPlay    x = " + x);
+            //Debug.Log("FOUND A PLAYER PREF for LevelToPlay    x = " + x);
             if (playerPrefActive) LoadPlayerPrefLevel(x);
             if (x > 1) level2Button.interactable = true;
         }
-        else Debug.Log ("NO PLAYER PREF FOUND");
+        // else Debug.Log ("NO PLAYER PREF FOUND");
+        if (!PlayerPrefs.HasKey("JoyStickPosition"))  //we never set a position
+        {
+            PlayerPrefs.SetInt("JoyStickPosition", 1); //right side -default
+        }
+        joyStickPosition = PlayerPrefs.GetInt("JoyStickPosition");
 
-        if (canvasTest) Debug.Log("WARNING: Canvas Test is ON so you're not going anywhere. But you can test buttons/sounds!");
+      if (canvasTest) Debug.Log("WARNING: Canvas Test is ON so you're not going anywhere. But you can test buttons/sounds!");
       //  levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();  // 3/14/22  put in public/Inspector  seems ok
     }
 
