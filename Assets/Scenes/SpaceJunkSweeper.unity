@@ -3265,7 +3265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &373715410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10473,8 +10473,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130.194, y: 11}
-  m_SizeDelta: {x: 157.4806, y: 22.2268}
+  m_AnchoredPosition: {x: 181.2042, y: 11.057}
+  m_SizeDelta: {x: 259.5011, y: 22.113}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &618700821
 MonoBehaviour:
@@ -11329,8 +11329,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130.194, y: -11.813507}
-  m_SizeDelta: {x: 157.4806, y: 22.2268}
+  m_AnchoredPosition: {x: 219.01599, y: -13.597}
+  m_SizeDelta: {x: 335.1247, y: 25.7939}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &676559708
 MonoBehaviour:
@@ -12142,7 +12142,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -191, y: -63}
+  m_AnchoredPosition: {x: -73, y: -63}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721650650
@@ -13963,7 +13963,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 899677368}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1583807016}
+        m_TargetAssemblyTypeName: ScoreKeeper, Assembly-CSharp
+        m_MethodName: OnButtonJoyStickLeftPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &899677368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14289,7 +14301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &972421042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15805,7 +15817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1098813661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15822,8 +15834,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.8986, y: -60.07599}
-  m_SizeDelta: {x: 139.7972, y: 34.2166}
+  m_AnchoredPosition: {x: 122.89861, y: -53}
+  m_SizeDelta: {x: 139.7972, y: 34.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1098813662
 MonoBehaviour:
@@ -17727,7 +17739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1320897906
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17744,8 +17756,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.9862, y: -67.076}
-  m_SizeDelta: {x: 149.9724, y: 34.217}
+  m_AnchoredPosition: {x: 127.98621, y: -53}
+  m_SizeDelta: {x: 149.9724, y: 34.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1320897907
 MonoBehaviour:
@@ -17771,15 +17783,16 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1628ebd59289e7140a236734a5294642, type: 2}
+  m_sharedMaterial: {fileID: -8333250609966275279, guid: 1628ebd59289e7140a236734a5294642,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4294957640
+  m_fontColor: {r: 0.28235295, g: 0.85490197, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -20790,7 +20803,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1527076308}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1583807016}
+        m_TargetAssemblyTypeName: ScoreKeeper, Assembly-CSharp
+        m_MethodName: OnButtonJoyStickCenterPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1527076308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21039,8 +21064,12 @@ MonoBehaviour:
   clipEngineSound: {fileID: 8300000, guid: 912d8bcee5bcfa14ba4f41adfee7609c, type: 3}
   clipTheCan: {fileID: 8300000, guid: 0b6dc9721f72c584fbe16f71353b1af1, type: 3}
   clipApert: {fileID: 8300000, guid: 8a7e16fab735518448e9503f08c58c38, type: 3}
+  joyStickCanvas: {fileID: 89059486}
+  joyStickRightText: {fileID: 1098813660}
+  joyStickCenterText: {fileID: 1676418859}
+  joyStickLeftText: {fileID: 1320897905}
+  joyStickPositionTextOnMain: {fileID: 676559706}
   wormholeSceneInfoButton: {fileID: 0}
-  joyStick: {fileID: 89059486}
   gOShipSpeedSlider: {fileID: 0}
   initialRoundTime: 60
   levelOneSlowSpeed: 90
@@ -21663,8 +21692,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.9862, y: -67.076}
-  m_SizeDelta: {x: 149.9724, y: 34.217}
+  m_AnchoredPosition: {x: 127.98621, y: -53}
+  m_SizeDelta: {x: 149.9724, y: 34.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676418861
 MonoBehaviour:
@@ -21688,15 +21717,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: CENTER
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1628ebd59289e7140a236734a5294642, type: 2}
+  m_sharedMaterial: {fileID: -8333250609966275279, guid: 1628ebd59289e7140a236734a5294642,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4294957640
+  m_fontColor: {r: 0.28235295, g: 0.85490197, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -23368,7 +23398,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1836938210}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1583807016}
+        m_TargetAssemblyTypeName: ScoreKeeper, Assembly-CSharp
+        m_MethodName: OnButtonJoyStickRightPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1836938210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26424,8 +26466,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -2.3404263e-24, y: 2.3937104e-21, z: -3.0590932e+31,
-    w: NaN}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: -0.000000006692865}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

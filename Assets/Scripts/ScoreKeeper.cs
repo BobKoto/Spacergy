@@ -65,7 +65,14 @@ public class ScoreKeeper : MonoBehaviour
     //private static GameObject gameInfoPanel;
     private static GameObject restartButton, goButton, junkSceneInfoButton, 
         exitButton, setupButton, statsButton;// , setupOKButton;
-    public GameObject  wormholeSceneInfoButton, joyStick, gOShipSpeedSlider;
+    [Header("JoyStick")]
+    public GameObject joyStickCanvas; 
+    public GameObject joyStickRightText;
+    public GameObject joyStickCenterText;
+    public GameObject joyStickLeftText;
+    public GameObject joyStickPositionTextOnMain;
+    [Header("Level 2 Specifics")]
+    public GameObject  wormholeSceneInfoButton, gOShipSpeedSlider;
 
     public delegate void GoPressed();
     public static event GoPressed GoButtonPressed;
@@ -105,6 +112,14 @@ public class ScoreKeeper : MonoBehaviour
     };
 
     bool toggleGOSlow, toggleGOMedium, toggleGOFast;
+    string level1Slow = "This level speed is set Slow";
+    string level1Medium = "This level speed is set Medium";
+    string level1Fast = "This level speed is set Fast";
+
+    string jRight = "Entire Game Joystick is on the Right";
+    string jCenter = "Entire Game Joystick is in the Center";
+    string jLeft = "Entire Game Joystick is on the Left";
+
     Slider shipSpeedSlider;
    FirstPersonController firstPersonController;  //Find this on the Player GameObject
     private void Awake()
@@ -114,10 +129,43 @@ public class ScoreKeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var jp = PlayerPrefs.GetInt("JoyStickPosition");
-        Debug.Log("from Prefs our joystick position is " + jp);
+
         levelInProgress = SceneManager.GetActiveScene().buildIndex - 1; //subtract 1 to account for setup scenes 0 and 1 so we get 1 for level1, etc
                                                                         // if (SceneManager.GetActiveScene().buildIndex == 2)  // 3/27/22 start of segregating levels 1 and 2 
+
+
+        var joyStickPosition = PlayerPrefs.GetInt("JoyStickPosition");
+        Debug.Log("from Prefs our joystick position is " + joyStickPosition);
+        switch (joyStickPosition)
+        {    // here (in each case) we need to decide to manipulate canvases or reposition joystick on the same canvas 
+             // and we need to handle both level 1 and 2 main canvases 
+            case 1:
+                Debug.Log("stick position is RIGHT");
+                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
+                // here we need to see comments above  // below is draft of changing the text of jstick position
+                if (joyStickCenterText) joyStickCenterText.SetActive(false);
+                if (joyStickLeftText) joyStickLeftText.SetActive(false);
+                if (joyStickRightText) joyStickRightText.SetActive(true);
+                break;
+            case 2:
+                Debug.Log("stick position is CENTER");
+                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
+                if (joyStickCenterText) joyStickCenterText.SetActive(true);
+                if (joyStickLeftText) joyStickLeftText.SetActive(false);
+                if (joyStickRightText) joyStickRightText.SetActive(false);
+                break;
+            case 3:
+                Debug.Log("stick position is LEFT");
+                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
+                if (joyStickCenterText) joyStickCenterText.SetActive(false);
+                if (joyStickLeftText) joyStickLeftText.SetActive(true);
+                if (joyStickRightText) joyStickRightText.SetActive(false);
+                break;
+            default:
+                Debug.Log("stick position is RIGHT defaulted uh oh");
+                break;
+
+        }
         if (levelInProgress == 1)
         {
             genRandomBackground = GameObject.Find("GenRandomBackground").GetComponent<GenRandomBackground>();
@@ -139,17 +187,17 @@ public class ScoreKeeper : MonoBehaviour
                 switch (x)
                 {
                     case 1:       //this has to reference the public int variable    i.e.     public int levelOneSlowSpeed = 90;  110, 130 etc
-                        currentText.text = "Currently Slow";
+                        currentText.text = level1Slow; // "This level speed is set Slow";
                         genRandomBackground.objectSpeed = levelOneSlowSpeed;
                         StaticBackground.objectSpeed = levelOneSlowSpeed;
                         break;
                     case 2:       //this has to reference the public int variable 
-                        currentText.text = "Currently Medium";
+                        currentText.text = level1Medium; // "This level speed is set Medium";
                         genRandomBackground.objectSpeed = levelOneMediumSpeed;
                         StaticBackground.objectSpeed = levelOneMediumSpeed;
                         break;
                     case 3:       //this has to reference the public int variable 
-                        currentText.text = "Currently Fast";
+                        currentText.text = level1Fast; // "This level speed is set Fast";
                         genRandomBackground.objectSpeed = levelOneFastSpeed;
                         StaticBackground.objectSpeed = levelOneFastSpeed;
                         break;
@@ -318,7 +366,7 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.Play();
         Debug.Log("Junk INfo Button Pressed!");
         // code to show INFO for Junk Scene 
-        joyStick.SetActive(false);
+        joyStickCanvas.SetActive(false);
         mainCanvas.SetActive(false);
         junkInfoCanvasPart.SetActive(true);
     }
@@ -326,7 +374,7 @@ public class ScoreKeeper : MonoBehaviour
     {
         audioSource.Play();
         junkInfoCanvasPart.SetActive(false);
-        joyStick.SetActive(true);
+        joyStickCanvas.SetActive(true);
         mainCanvas.SetActive(true);
     }
     public void OnWormholeSceneInfoButtonPressed()
@@ -335,7 +383,7 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.clip = clipApert;
         audioSource.Play();
         // code to show INFO for Junk Scene 
-        joyStick.SetActive(false);
+        joyStickCanvas.SetActive(false);
         mainCanvas.SetActive(false);
         wormholeInfoCanvasPart.SetActive(true);
     }
@@ -343,7 +391,7 @@ public class ScoreKeeper : MonoBehaviour
     {
         audioSource.Play();
         wormholeInfoCanvasPart.SetActive(false);
-        joyStick.SetActive(true);
+        joyStickCanvas.SetActive(true);
         mainCanvas.SetActive(true);
     }
     public void SetLevel2ShipSpeed()
@@ -410,7 +458,7 @@ public class ScoreKeeper : MonoBehaviour
         speedSelectorCanvas.SetActive(false);   //NOTE: Reuse of Level1 JunkScene
         mainCanvas.SetActive(true);
     }
-    public void OnSetupButtonPressed()     //setupButton is in mainCanvas  
+    public void OnSetupButtonPressed()     //setupButton is in mainCanvas  -- here we also show joystick positioning buttons
     {
         Debug.Log("Setup Button Pressed!");
         audioSource.clip = clipApert;
@@ -465,17 +513,17 @@ public class ScoreKeeper : MonoBehaviour
         switch (x)
         {
             case 1:
-                currentText.text = "Currently Slow";
+                currentText.text = level1Slow; // "Currently Slow";
                 speedNumber.text = levelOneSlowSpeed.ToString("###");
                 StaticBackground.objectSpeed = levelOneSlowSpeed;
                 break;
             case 2:
-                currentText.text = "Currently Medium";
+                currentText.text = level1Medium; // "Currently Medium";
                 speedNumber.text = levelOneMediumSpeed.ToString("###");
                 StaticBackground.objectSpeed = levelOneMediumSpeed;
                 break;
             case 3:
-                currentText.text = "Currently Fast";
+                currentText.text = level1Fast; // "Currently Fast";
                 speedNumber.text = levelOneFastSpeed.ToString("###");
                 StaticBackground.objectSpeed = levelOneFastSpeed;
                 break;
@@ -568,6 +616,33 @@ public class ScoreKeeper : MonoBehaviour
             audioSource.Play();
             GoButtonPressed();
         }
+    }
+
+    public void OnButtonJoyStickRightPressed()
+    {
+        if (joyStickCenterText) joyStickCenterText.SetActive(false);
+        if (joyStickLeftText) joyStickLeftText.SetActive(false);
+        if (joyStickRightText) joyStickRightText.SetActive(true);
+        PlayerPrefs.SetInt("JoyStickPosition", 1);
+        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
+
+    }
+
+    public void OnButtonJoyStickLeftPressed()
+    {
+        if (joyStickCenterText) joyStickCenterText.SetActive(false);
+        if (joyStickLeftText) joyStickLeftText.SetActive(true);
+        if (joyStickRightText) joyStickRightText.SetActive(false);
+        PlayerPrefs.SetInt("JoyStickPosition", 3);
+        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
+    }
+    public void OnButtonJoyStickCenterPressed()
+    {
+        if (joyStickCenterText) joyStickCenterText.SetActive(true);
+        if (joyStickLeftText) joyStickLeftText.SetActive(false);
+        if (joyStickRightText) joyStickRightText.SetActive(false);
+        PlayerPrefs.SetInt("JoyStickPosition", 2);
+        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
     }
     IEnumerator WaitOnAudio(float waitTime)
     {
