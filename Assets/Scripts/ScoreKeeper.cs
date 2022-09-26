@@ -1,15 +1,10 @@
+using StarterAssets;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
-using System.Runtime.CompilerServices;
-using Button = UnityEngine.UI.Button;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 //using StarterAssets;
 using Slider = UnityEngine.UI.Slider;
-using StarterAssets;
 
 public class ScoreKeeper : MonoBehaviour
 {
@@ -24,7 +19,7 @@ public class ScoreKeeper : MonoBehaviour
     public TextMeshProUGUI highScore;   //for now just a little display on bottom of level1 playing scene
 
     [Header("Level1 results items")]
-    public TextMeshProUGUI endRoundComment;                  
+    public TextMeshProUGUI endRoundComment;
     public TextMeshProUGUI totalHits;
     public TextMeshProUGUI satsAlive;
     public TextMeshProUGUI teslaHits;
@@ -63,10 +58,10 @@ public class ScoreKeeper : MonoBehaviour
     private static IEnumerator coroutine;
 
     //private static GameObject gameInfoPanel;
-    private static GameObject restartButton, goButton, junkSceneInfoButton, 
+    private static GameObject restartButton, goButton, junkSceneInfoButton,
         exitButton, setupButton, statsButton;// , setupOKButton;
     [Header("JoyStick")]
-    public GameObject joyStickCanvasRight; 
+    public GameObject joyStickCanvasRight;
     public GameObject joyStickCanvasCenter;
     public GameObject joyStickCanvasLeft;
     public GameObject joyStickRightText;
@@ -129,7 +124,7 @@ public class ScoreKeeper : MonoBehaviour
     Camera cam;
 
     Slider shipSpeedSlider;
-   FirstPersonController firstPersonController;  //Find this on the Player GameObject
+    FirstPersonController firstPersonController;  //Find this on the Player GameObject
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -160,33 +155,45 @@ public class ScoreKeeper : MonoBehaviour
         joyStickCanvasLeft.SetActive(false);
         var joyStickPosition = PlayerPrefs.GetInt("JoyStickPosition");
         //SetJoyStickCanvas(true);
-        switch (joyStickPosition)  
+        switch (joyStickPosition)
         {    // here (in each case) we need to decide to manipulate canvases or reposition joystick on the same canvas 
              // and we need to handle both level 1 and 2 main canvases 
-             
+
             case 1:
                 Debug.Log("stick position is RIGHT");
+                if (levelInProgress == 1)
+                {
                 joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
                 // here we need to see comments above  // below is draft of changing the text of jstick position
                 if (joyStickCenterText) joyStickCenterText.SetActive(false);
                 if (joyStickLeftText) joyStickLeftText.SetActive(false);
                 if (joyStickRightText) joyStickRightText.SetActive(true);
+                }
+
                 SetJoyStickCanvas(true);
                 break;
             case 2:
                 Debug.Log("stick position is CENTER");
-                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
+                if (levelInProgress == 1)
+                {
+                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
                 if (joyStickCenterText) joyStickCenterText.SetActive(true);
                 if (joyStickLeftText) joyStickLeftText.SetActive(false);
                 if (joyStickRightText) joyStickRightText.SetActive(false);
+                }
+
                 SetJoyStickCanvas(true);
                 break;
             case 3:
                 Debug.Log("stick position is LEFT");
-                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
+                if (levelInProgress == 1)
+                {
+                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
                 if (joyStickCenterText) joyStickCenterText.SetActive(false);
                 if (joyStickLeftText) joyStickLeftText.SetActive(true);
                 if (joyStickRightText) joyStickRightText.SetActive(false);
+                }
+
                 SetJoyStickCanvas(true);
                 break;
             default:
@@ -235,15 +242,15 @@ public class ScoreKeeper : MonoBehaviour
             }
             else    //this is first time user runs game so take the default 
             {
-                    Debug.Log("speed key NOT found in start  Setting key to levelOneSlowSpeed...");
-                    PlayerPrefs.SetInt("Level1Speed", 1); //here levelOneSlowSpeed is taken from public int   // change to "1" on 3/6
+                Debug.Log("speed key NOT found in start  Setting key to levelOneSlowSpeed...");
+                PlayerPrefs.SetInt("Level1Speed", 1); //here levelOneSlowSpeed is taken from public int   // change to "1" on 3/6
             }
 
         }
 
         // setupOKButton = GameObject.Find("SetupOKButton");  // part of speed/setup canvas
         setupButton = GameObject.Find("SetupButton");
-       // if (speedSetupCanvasPart) speedSetupCanvasPart.SetActive(false);
+        // if (speedSetupCanvasPart) speedSetupCanvasPart.SetActive(false);
         if (canvasStatsLevel1) canvasStatsLevel1.SetActive(false);
         junkSceneInfoButton = GameObject.Find("JunkSceneInfoButton");
         if (junkInfoCanvasPart) junkInfoCanvasPart.SetActive(false);
@@ -259,7 +266,7 @@ public class ScoreKeeper : MonoBehaviour
         // level2 stuff starts here...
         if (levelInProgress == 2)
         {
-        if (wormholeInfoCanvasPart) wormholeInfoCanvasPart.SetActive(false);
+            if (wormholeInfoCanvasPart) wormholeInfoCanvasPart.SetActive(false);
         }
 
         levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
@@ -277,10 +284,10 @@ public class ScoreKeeper : MonoBehaviour
         coroutine = WaitOnAudio(3);  //These 2 lines wait 3 seconds then start the background audio
         audioSource = GetComponent<AudioSource>();
 
-        switch (levelInProgress) 
+        switch (levelInProgress)
         {
             case 1:  //Space Junk scene/Level 1
-               //DisableNewStatsLabels(); // 5/27/22
+                     //DisableNewStatsLabels(); // 5/27/22
                 labelForNewBestTotalScore.enabled = false;
                 CheckForLevel1ScoreStatsPlayerPrefs();
                 break;
@@ -336,7 +343,7 @@ public class ScoreKeeper : MonoBehaviour
             currentLevel2HighScore = PlayerPrefs.GetInt("Level2HighScore", 0);
             level2HighScore.enabled = true;
         }
-          if (level2HighScore)level2HighScore.text = currentLevel2HighScore.ToString("#,###");
+        if (level2HighScore) level2HighScore.text = currentLevel2HighScore.ToString("#,###");
     }
     public void UpdateScore(int points)
     {
@@ -447,20 +454,20 @@ public class ScoreKeeper : MonoBehaviour
         if (!speedSelectorCanvas.activeSelf)
         {
             speedSelectorCanvas.SetActive(true);
-           // Debug.Log("activate speed selector canvas");
+            // Debug.Log("activate speed selector canvas");
         }
         gOShipSpeedSlider = GameObject.Find("ShipSpeedSlider");
         if (gOShipSpeedSlider)
         {
             shipSpeedSlider = gOShipSpeedSlider.GetComponent<Slider>();
-           // Debug.Log("Got the slider ...");
+            // Debug.Log("Got the slider ...");
         }
         if (gOShipSpeedSlider)
         {
             if (PlayerPrefs.HasKey("Level2ShipSpeed"))
             {
                 shipSpeedSlider.value = PlayerPrefs.GetFloat("Level2ShipSpeed");
-              //  Debug.Log("slider set to Key");
+                //  Debug.Log("slider set to Key");
             }
             Debug.Log("Ship Speed slider found in ONSetup");
             shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
@@ -474,13 +481,13 @@ public class ScoreKeeper : MonoBehaviour
         //if (value != 0)  //method/on event is triggered just by touching setup button ??? so we check for 0
         //{
         //    Debug.Log("ShipSpeedSlider moved :  " + value);
-            firstPersonController = GameObject.Find("Player").GetComponent<FirstPersonController>();
-            string v = shipSpeedSlider.value.ToString("##.#");
-            shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
-            shipSpeedValueText.text = v;
-            firstPersonController.MoveSpeed = shipSpeedSlider.value;
+        firstPersonController = GameObject.Find("Player").GetComponent<FirstPersonController>();
+        string v = shipSpeedSlider.value.ToString("##.#");
+        shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
+        shipSpeedValueText.text = v;
+        firstPersonController.MoveSpeed = shipSpeedSlider.value;
 
-            PlayerPrefs.SetFloat("Level2ShipSpeed", shipSpeedSlider.value);
+        PlayerPrefs.SetFloat("Level2ShipSpeed", shipSpeedSlider.value);
         //}
     }
 
@@ -572,7 +579,7 @@ public class ScoreKeeper : MonoBehaviour
         Debug.Log(" SlowSpeed Value Changed " + tog);
         if (tog)
         {
-           // PlayerPrefs.SetInt("Level1Speed", levelOneSlowSpeed);  // 3/6
+            // PlayerPrefs.SetInt("Level1Speed", levelOneSlowSpeed);  // 3/6
             PlayerPrefs.SetInt("Level1Speed", 1);
             genRandomBackground.objectSpeed = levelOneSlowSpeed;
         }
@@ -582,7 +589,7 @@ public class ScoreKeeper : MonoBehaviour
         Debug.Log(" MediumSpeed Value Changed " + tog);
         if (tog)
         {
-           // PlayerPrefs.SetInt("Level1Speed", levelOneMediumSpeed);  // 3/6
+            // PlayerPrefs.SetInt("Level1Speed", levelOneMediumSpeed);  // 3/6
             PlayerPrefs.SetInt("Level1Speed", 2);
             genRandomBackground.objectSpeed = levelOneMediumSpeed;
         }
@@ -592,7 +599,7 @@ public class ScoreKeeper : MonoBehaviour
         Debug.Log(" FastSpeed Value Changed " + tog);
         if (tog)
         {
-          //  PlayerPrefs.SetInt("Level1Speed", levelOneFastSpeed);  // 3/6
+            //  PlayerPrefs.SetInt("Level1Speed", levelOneFastSpeed);  // 3/6
             PlayerPrefs.SetInt("Level1Speed", 3);
             genRandomBackground.objectSpeed = levelOneFastSpeed;
         }
@@ -610,7 +617,7 @@ public class ScoreKeeper : MonoBehaviour
             case 2:
                 break; // for now 
         }
-         
+
     }
     public void OnResetStatsButtonPressed()
     {
@@ -629,7 +636,7 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.clip = clipTheCan;
         audioSource.Play();
     }
-    public void OnGoButtonPressed()  
+    public void OnGoButtonPressed()
     {
         if (junkSceneInfoButton) junkSceneInfoButton.SetActive(false);
         if (wormholeSceneInfoButton) wormholeSceneInfoButton.SetActive(false);
@@ -644,7 +651,7 @@ public class ScoreKeeper : MonoBehaviour
             //  scoreTotal = 0;
             //  scoreText.text = scoreTotal.ToString("#,###");
             audioSource.clip = clipEngineSound;
-            if (levelInProgress == 1)     audioSource.loop = true;  // A fucked up kludge because I didn't prepare audio properly
+            if (levelInProgress == 1) audioSource.loop = true;  // A fucked up kludge because I didn't prepare audio properly
             audioSource.Play();
             GoButtonPressed();
         }
@@ -732,7 +739,7 @@ public class ScoreKeeper : MonoBehaviour
         {
             levelChanger.FadeToLevel(0);  // 3/14/22 changed 1 to 0
         }
-       // SceneManager.LoadScene(sceneBuildIndex);   //to be continued ! this is fucking hardcoded to 2 
+        // SceneManager.LoadScene(sceneBuildIndex);   //to be continued ! this is fucking hardcoded to 2 
     }
     IEnumerator TimerAndDisplay()
     {
@@ -782,12 +789,12 @@ public class ScoreKeeper : MonoBehaviour
                 StartCoroutine(FlashBonus());
                 break;
             case "Satellite":
-              //  Debug.Log("Satellite reported to SKeeper");
+                //  Debug.Log("Satellite reported to SKeeper");
                 UpdateScore(-400);
                 totalSatelliteBadHits++;
                 break;
             case "BackgroundObject":
-             //   Debug.Log("BackgroundObject reported to SKeeper");
+                //   Debug.Log("BackgroundObject reported to SKeeper");
                 UpdateScore(100);
                 totalGoodHits++;
                 break;
@@ -797,7 +804,7 @@ public class ScoreKeeper : MonoBehaviour
                 UpdateScore(100);  // 3/21/22 
                 break;
             case "WormholePipe":
-              //  Debug.Log("WormholeSegmentNonRigidbody reported to SKeeper");
+                //  Debug.Log("WormholeSegmentNonRigidbody reported to SKeeper");
                 if (roundInProgress) UpdateScore(-400);  //5/14/22 added if (roundInProgress)   (as a start to segregate levels)
                 break;
             case "WormholeMenace":   // player is shielded else we wouldn't get here - unshieded player gets destroyed
@@ -806,11 +813,11 @@ public class ScoreKeeper : MonoBehaviour
                 break;
             case "ShieldSphere":
                 // here we should award and tally shields.
-               // Debug.Log("ShieldSphere collision reported to SKeeper");
-               // UpdateScore(1);
+                // Debug.Log("ShieldSphere collision reported to SKeeper");
+                // UpdateScore(1);
                 break;
             default:
-             //   Debug.Log("SOME OTHER objectHit tag reported to Skeeper: " + objectHit.tag);
+                //   Debug.Log("SOME OTHER objectHit tag reported to Skeeper: " + objectHit.tag);
                 break;
         }
     }
@@ -821,7 +828,7 @@ public class ScoreKeeper : MonoBehaviour
             case 1:
                 //Debug.Log("Skeeper received a messageType call for type 1 -- Player Destroyed");
                 roundInProgress = false; //5/17/22 cause  IEnumerator TimerAndDisplay() to end
-                 UpdateScore(true); // 6/16/22 set score to 0 on play destruction
+                UpdateScore(true); // 6/16/22 set score to 0 on play destruction
                 break;
             case 2:  //level 2 player made it home - now tally shields left penalty OR bonus for zero shields left
                 //Debug.Log("Skeeper received a messageType call for type 2 with a shieldCount of " + count);
@@ -895,13 +902,13 @@ public class ScoreKeeper : MonoBehaviour
             //audioSource.Play();
             //Debug.Log(" Display Nice try");
             collectBonusText.text = "Round Lost.";
-                //"Nice try!  You scored " + scoreTotal.ToString() + " and left " + objectsRemaining.ToString()
-                //+ " satellites alive." +
-                //"\r\n You need 20,000 HitCoins or 6 satellites for next level";
+            //"Nice try!  You scored " + scoreTotal.ToString() + " and left " + objectsRemaining.ToString()
+            //+ " satellites alive." +
+            //"\r\n You need 20,000 HitCoins or 6 satellites for next level";
             collectBonusText.enabled = true;
             // 3/26/22 All above replaced by  DisplayLevel1Stats()
-            StringToShow = WhichStringToShow.RoundLost;         
-           startNextLevel = false;
+            StringToShow = WhichStringToShow.RoundLost;
+            startNextLevel = false;
         }
         //Somewhere around here we need to fill the StatsPanel with the results... Or call another method
         //yield return new WaitForSeconds(5f);
@@ -951,7 +958,7 @@ public class ScoreKeeper : MonoBehaviour
         }
         //    public int totalGoodHits, totalTeslaHits, totalSatelliteBadHits, totalSatellitesLeftAlive;  //just for ref.
         //Now populate the stats grid   // 5/22/22 OR move to SetLevel1Stats(...) 
-     }
+    }
     //private void DisplayLevel2Stats()  for the future
     //{
 
@@ -992,13 +999,13 @@ public class ScoreKeeper : MonoBehaviour
             labelNewBestGame.enabled = false;
         }
 
-        if (totalScore > currentBestTotalScore  && previousLevel1PlayerPrefStatsKeysFound)   //changed to show Best Game -- NOT best of each -- which was confusing 
+        if (totalScore > currentBestTotalScore && previousLevel1PlayerPrefStatsKeysFound)   //changed to show Best Game -- NOT best of each -- which was confusing 
         {
             labelNewBestGame.enabled = true;
             labelForNewBestTotalScore.enabled = true;
             animHighScoreIndicator.enabled = true;
             newHighScoreIndicator.enabled = true;
-            PlayerPrefs.SetInt("BestTotalScore",totalScore );
+            PlayerPrefs.SetInt("BestTotalScore", totalScore);
             PlayerPrefs.SetInt("BestHitsScore", hitsScore);
             PlayerPrefs.SetInt("BestTeslaHitsScore", teslaHitsScore);
             PlayerPrefs.SetInt("BestSatsAliveScore", satsAliveScore);
@@ -1013,7 +1020,7 @@ public class ScoreKeeper : MonoBehaviour
             {
                 PlayerPrefs.SetInt("Level2HighScore", score);
             }
-        } 
+        }
         else   // we don't have a key (very 1st game or user reset the stats)
         {
             PlayerPrefs.SetInt("Level2HighScore", score);
