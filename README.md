@@ -1,6 +1,6 @@
 Spacergy is a Unity Android 3d Arcade casual game 
 
-2 levels 
+Casual game: 2 levels 60 seconds each
 
 variation of endless runner (on Z axis)
 
