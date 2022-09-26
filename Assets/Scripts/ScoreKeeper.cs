@@ -22,7 +22,7 @@ public class ScoreKeeper : MonoBehaviour
     static TextMeshProUGUI scoreText, shipSpeedValueText, missionAccomplishedText, timerText, goInfoText, currentText, collectBonusText;
     TextMeshProUGUI speedNumber;
     public TextMeshProUGUI highScore;   //for now just a little display on bottom of level1 playing scene
-    public TextMeshProUGUI level2HighScore;   //for now just a little display on bottom of level2 playing scene
+
     [Header("Level1 results items")]
     public TextMeshProUGUI endRoundComment;                  
     public TextMeshProUGUI totalHits;
@@ -66,24 +66,16 @@ public class ScoreKeeper : MonoBehaviour
     private static GameObject restartButton, goButton, junkSceneInfoButton, 
         exitButton, setupButton, statsButton;// , setupOKButton;
     [Header("JoyStick")]
-    public GameObject joyStickCanvas; 
+    public GameObject joyStickCanvasRight; 
+    public GameObject joyStickCanvasCenter;
+    public GameObject joyStickCanvasLeft;
     public GameObject joyStickRightText;
     public GameObject joyStickCenterText;
     public GameObject joyStickLeftText;
     public GameObject joyStickPositionTextOnMain;
-    [Header("Level 2 Specifics")]
-    public GameObject  wormholeSceneInfoButton, gOShipSpeedSlider;
 
-    public delegate void GoPressed();
-    public static event GoPressed GoButtonPressed;
 
-    public delegate void TimerExpired();
-    public static event TimerExpired SceneXTimerExpired;
-
-    public delegate void RestartPressed();  //Now called "Continue"
-    public static event RestartPressed RestartButtonPressed;  //Say "RestartButtonPressed();" to emit the Event or "RestartButtonPressed?.Invoke();" without the if shit
-  
-    int levelInProgress; // we will subtract 1 from this to account for 1st 2 sceneBuildIndexes 
+    [Header("Misc Level 1")]
     public int initialRoundTime = 60;
     public int levelOneSlowSpeed = 90;
     public int levelOneMediumSpeed = 110;
@@ -99,7 +91,21 @@ public class ScoreKeeper : MonoBehaviour
     [HideInInspector]
     public float roundTime;   //timeAccumulated,timeRemaining, //these 2 commented 1/25/22
     public bool roundInProgress;
+    [Header("Level 2 Specifics")]
+    public GameObject wormholeSceneInfoButton;
+    public GameObject gOShipSpeedSlider;
+    public TextMeshProUGUI level2HighScore;   //for now just a little display on bottom of level2 playing scene
 
+    public delegate void GoPressed();
+    public static event GoPressed GoButtonPressed;
+
+    public delegate void TimerExpired();
+    public static event TimerExpired SceneXTimerExpired;
+
+    public delegate void RestartPressed();  //Now called "Continue"
+    public static event RestartPressed RestartButtonPressed;  //Say "RestartButtonPressed();" to emit the Event or "RestartButtonPressed?.Invoke();" without the if shit
+
+    int levelInProgress; // we will subtract 1 from this to account for 1st 2 sceneBuildIndexes 
     LevelChanger levelChanger;
     Animator animHighScoreIndicator;
 
@@ -112,13 +118,15 @@ public class ScoreKeeper : MonoBehaviour
     };
 
     bool toggleGOSlow, toggleGOMedium, toggleGOFast;
-    string level1Slow = "This level speed is set Slow";
-    string level1Medium = "This level speed is set Medium";
-    string level1Fast = "This level speed is set Fast";
+    readonly string level1Slow = "This level speed is set Slow";
+    readonly string level1Medium = "This level speed is set Medium";
+    readonly string level1Fast = "This level speed is set Fast";
 
-    string jRight = "Entire Game Joystick is on the Right";
-    string jCenter = "Entire Game Joystick is in the Center";
-    string jLeft = "Entire Game Joystick is on the Left";
+    readonly string jRight = "Entire Game Joystick is on the Right";
+    readonly string jCenter = "Entire Game Joystick is in the Center";
+    readonly string jLeft = "Entire Game Joystick is on the Left";
+
+    Camera cam;
 
     Slider shipSpeedSlider;
    FirstPersonController firstPersonController;  //Find this on the Player GameObject
@@ -129,16 +137,33 @@ public class ScoreKeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //cam = Camera.main;
+        //Vector3 pointSTW = new Vector3();
+        //Vector3 pointWTS = new Vector3();
+        //var jx = joyStick.GetComponent<RectTransform>().position;
+        //pointSTW = cam.ScreenToWorldPoint(jx); //(new Vector3(jx.x, jx.y, 0f));
+        //pointWTS = cam.WorldToScreenPoint(jx);   //(new Vector3(jx.x, jx.y, 0f));
+        //Debug.Log("Screen to world point = " + pointSTW);
+        //Debug.Log("World to Screen point  = " + pointWTS);
+        //Debug.Log("Rect transform in jx  = " + jx);
         levelInProgress = SceneManager.GetActiveScene().buildIndex - 1; //subtract 1 to account for setup scenes 0 and 1 so we get 1 for level1, etc
                                                                         // if (SceneManager.GetActiveScene().buildIndex == 2)  // 3/27/22 start of segregating levels 1 and 2 
 
 
+
+        //Debug.Log("from Prefs our joystick position is " + joyStickPosition);
+
+        //Debug.Log("stick position is x value of the rect  " + jx + "  js = " + joyStick);
+        //Debug.Log(jx);
+        joyStickCanvasRight.SetActive(false);
+        joyStickCanvasCenter.SetActive(false);
+        joyStickCanvasLeft.SetActive(false);
         var joyStickPosition = PlayerPrefs.GetInt("JoyStickPosition");
-        Debug.Log("from Prefs our joystick position is " + joyStickPosition);
-        switch (joyStickPosition)
+        //SetJoyStickCanvas(true);
+        switch (joyStickPosition)  
         {    // here (in each case) we need to decide to manipulate canvases or reposition joystick on the same canvas 
              // and we need to handle both level 1 and 2 main canvases 
+             
             case 1:
                 Debug.Log("stick position is RIGHT");
                 joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
@@ -146,6 +171,7 @@ public class ScoreKeeper : MonoBehaviour
                 if (joyStickCenterText) joyStickCenterText.SetActive(false);
                 if (joyStickLeftText) joyStickLeftText.SetActive(false);
                 if (joyStickRightText) joyStickRightText.SetActive(true);
+                SetJoyStickCanvas(true);
                 break;
             case 2:
                 Debug.Log("stick position is CENTER");
@@ -153,6 +179,7 @@ public class ScoreKeeper : MonoBehaviour
                 if (joyStickCenterText) joyStickCenterText.SetActive(true);
                 if (joyStickLeftText) joyStickLeftText.SetActive(false);
                 if (joyStickRightText) joyStickRightText.SetActive(false);
+                SetJoyStickCanvas(true);
                 break;
             case 3:
                 Debug.Log("stick position is LEFT");
@@ -160,6 +187,7 @@ public class ScoreKeeper : MonoBehaviour
                 if (joyStickCenterText) joyStickCenterText.SetActive(false);
                 if (joyStickLeftText) joyStickLeftText.SetActive(true);
                 if (joyStickRightText) joyStickRightText.SetActive(false);
+                SetJoyStickCanvas(true);
                 break;
             default:
                 Debug.Log("stick position is RIGHT defaulted uh oh");
@@ -366,7 +394,8 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.Play();
         Debug.Log("Junk INfo Button Pressed!");
         // code to show INFO for Junk Scene 
-        joyStickCanvas.SetActive(false);
+        //joyStickCanvas.SetActive(false);
+        SetJoyStickCanvas(false);
         mainCanvas.SetActive(false);
         junkInfoCanvasPart.SetActive(true);
     }
@@ -374,7 +403,8 @@ public class ScoreKeeper : MonoBehaviour
     {
         audioSource.Play();
         junkInfoCanvasPart.SetActive(false);
-        joyStickCanvas.SetActive(true);
+        //joyStickCanvas.SetActive(true);
+        SetJoyStickCanvas(true);
         mainCanvas.SetActive(true);
     }
     public void OnWormholeSceneInfoButtonPressed()
@@ -383,7 +413,8 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.clip = clipApert;
         audioSource.Play();
         // code to show INFO for Junk Scene 
-        joyStickCanvas.SetActive(false);
+        //joyStickCanvas.SetActive(false);
+        SetJoyStickCanvas(false);
         mainCanvas.SetActive(false);
         wormholeInfoCanvasPart.SetActive(true);
     }
@@ -391,7 +422,8 @@ public class ScoreKeeper : MonoBehaviour
     {
         audioSource.Play();
         wormholeInfoCanvasPart.SetActive(false);
-        joyStickCanvas.SetActive(true);
+        //joyStickCanvas.SetActive(true);
+        SetJoyStickCanvas(true);
         mainCanvas.SetActive(true);
     }
     public void SetLevel2ShipSpeed()
@@ -623,26 +655,59 @@ public class ScoreKeeper : MonoBehaviour
         if (joyStickCenterText) joyStickCenterText.SetActive(false);
         if (joyStickLeftText) joyStickLeftText.SetActive(false);
         if (joyStickRightText) joyStickRightText.SetActive(true);
+        SetJoyStickCanvas(false);
         PlayerPrefs.SetInt("JoyStickPosition", 1);
+        SetJoyStickCanvas(true);
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
+        //var jx = joyStick.GetComponent<RectTransform>().position.x;
+        //Debug.Log("stick RIGHT position is x value of the rect  " + jx + "  js = " + joyStick);
 
-    }
-
-    public void OnButtonJoyStickLeftPressed()
-    {
-        if (joyStickCenterText) joyStickCenterText.SetActive(false);
-        if (joyStickLeftText) joyStickLeftText.SetActive(true);
-        if (joyStickRightText) joyStickRightText.SetActive(false);
-        PlayerPrefs.SetInt("JoyStickPosition", 3);
-        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
     }
     public void OnButtonJoyStickCenterPressed()
     {
         if (joyStickCenterText) joyStickCenterText.SetActive(true);
         if (joyStickLeftText) joyStickLeftText.SetActive(false);
         if (joyStickRightText) joyStickRightText.SetActive(false);
+        SetJoyStickCanvas(false);
         PlayerPrefs.SetInt("JoyStickPosition", 2);
+        SetJoyStickCanvas(true);
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
+        //var jx = joyStick.GetComponent<RectTransform>().position.x;
+
+        //jx = 500f;
+        //Debug.Log("stick CENTER position is x value of the rect  " + jx + "  js = " + joyStick);
+    }
+    public void OnButtonJoyStickLeftPressed()
+    {
+        if (joyStickCenterText) joyStickCenterText.SetActive(false);
+        if (joyStickLeftText) joyStickLeftText.SetActive(true);
+        if (joyStickRightText) joyStickRightText.SetActive(false);
+        SetJoyStickCanvas(false);
+        PlayerPrefs.SetInt("JoyStickPosition", 3);
+        SetJoyStickCanvas(true);
+        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
+        //var jx = joyStick.GetComponent<RectTransform>().position.x;
+        //Debug.Log("stick LEFT position is x value of the rect  " + jx + "  js = " + joyStick);
+    }
+
+    private void SetJoyStickCanvas(bool canvasSwitcher)
+    {   // 
+        var theCanvas = PlayerPrefs.GetInt("JoyStickPosition");
+
+        switch (theCanvas)
+        {
+            case 1:
+                joyStickCanvasRight.SetActive(canvasSwitcher);
+                break;
+            case 2:
+                joyStickCanvasCenter.SetActive(canvasSwitcher);
+                break;
+            case 3:
+                joyStickCanvasLeft.SetActive(canvasSwitcher);
+                break;
+            default:
+                break;
+        }
     }
     IEnumerator WaitOnAudio(float waitTime)
     {
