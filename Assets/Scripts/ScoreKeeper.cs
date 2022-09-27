@@ -90,6 +90,7 @@ public class ScoreKeeper : MonoBehaviour
     public GameObject wormholeSceneInfoButton;
     public GameObject gOShipSpeedSlider;
     public TextMeshProUGUI level2HighScore;   //for now just a little display on bottom of level2 playing scene
+    public GameObject level2ShieldBackground;
 
     public delegate void GoPressed();
     public static event GoPressed GoButtonPressed;
@@ -121,7 +122,7 @@ public class ScoreKeeper : MonoBehaviour
     readonly string jCenter = "Entire Game Joystick is in the Center";
     readonly string jLeft = "Entire Game Joystick is on the Left";
 
-    Camera cam;
+    //Camera cam;   // keep in case 
 
     Slider shipSpeedSlider;
     FirstPersonController firstPersonController;  //Find this on the Player GameObject
@@ -132,75 +133,23 @@ public class ScoreKeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //cam = Camera.main;
-        //Vector3 pointSTW = new Vector3();
-        //Vector3 pointWTS = new Vector3();
-        //var jx = joyStick.GetComponent<RectTransform>().position;
-        //pointSTW = cam.ScreenToWorldPoint(jx); //(new Vector3(jx.x, jx.y, 0f));
-        //pointWTS = cam.WorldToScreenPoint(jx);   //(new Vector3(jx.x, jx.y, 0f));
-        //Debug.Log("Screen to world point = " + pointSTW);
-        //Debug.Log("World to Screen point  = " + pointWTS);
-        //Debug.Log("Rect transform in jx  = " + jx);
+        //cam = Camera.main;  // keep in case 
+
         levelInProgress = SceneManager.GetActiveScene().buildIndex - 1; //subtract 1 to account for setup scenes 0 and 1 so we get 1 for level1, etc
                                                                         // if (SceneManager.GetActiveScene().buildIndex == 2)  // 3/27/22 start of segregating levels 1 and 2 
 
+        //if (levelInProgress == 2)  // temp test 
+        //{
+        //    Transform rectNew = level2ShieldBackground.GetComponent<RectTransform>();
+        //    Vector3 newTransform = new Vector3(1164f, rectNew.position.y, 0f);
 
+        //    Debug.Log("level2ShieldBackground.x and .y  = " + rectNew.position.x + "  " + rectNew.position.y);
+        //    level2ShieldBackground.transform.position = newTransform;
+        //}
+        //else Debug.Log("WTF  levelInProgress = " + levelInProgress);
 
-        //Debug.Log("from Prefs our joystick position is " + joyStickPosition);
+        SetUpJoyStickPosition();
 
-        //Debug.Log("stick position is x value of the rect  " + jx + "  js = " + joyStick);
-        //Debug.Log(jx);
-        joyStickCanvasRight.SetActive(false);
-        joyStickCanvasCenter.SetActive(false);
-        joyStickCanvasLeft.SetActive(false);
-        var joyStickPosition = PlayerPrefs.GetInt("JoyStickPosition");
-        //SetJoyStickCanvas(true);
-        switch (joyStickPosition)
-        {    // here (in each case) we need to decide to manipulate canvases or reposition joystick on the same canvas 
-             // and we need to handle both level 1 and 2 main canvases 
-
-            case 1:
-                Debug.Log("stick position is RIGHT");
-                if (levelInProgress == 1)
-                {
-                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
-                // here we need to see comments above  // below is draft of changing the text of jstick position
-                if (joyStickCenterText) joyStickCenterText.SetActive(false);
-                if (joyStickLeftText) joyStickLeftText.SetActive(false);
-                if (joyStickRightText) joyStickRightText.SetActive(true);
-                }
-
-                SetJoyStickCanvas(true);
-                break;
-            case 2:
-                Debug.Log("stick position is CENTER");
-                if (levelInProgress == 1)
-                {
-                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
-                if (joyStickCenterText) joyStickCenterText.SetActive(true);
-                if (joyStickLeftText) joyStickLeftText.SetActive(false);
-                if (joyStickRightText) joyStickRightText.SetActive(false);
-                }
-
-                SetJoyStickCanvas(true);
-                break;
-            case 3:
-                Debug.Log("stick position is LEFT");
-                if (levelInProgress == 1)
-                {
-                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
-                if (joyStickCenterText) joyStickCenterText.SetActive(false);
-                if (joyStickLeftText) joyStickLeftText.SetActive(true);
-                if (joyStickRightText) joyStickRightText.SetActive(false);
-                }
-
-                SetJoyStickCanvas(true);
-                break;
-            default:
-                Debug.Log("stick position is RIGHT defaulted uh oh");
-                break;
-
-        }
         if (levelInProgress == 1)
         {
             genRandomBackground = GameObject.Find("GenRandomBackground").GetComponent<GenRandomBackground>();
@@ -214,11 +163,10 @@ public class ScoreKeeper : MonoBehaviour
             newHighScoreIndicator.enabled = false;
             if (PlayerPrefs.HasKey("Level1Speed"))  //if we have a Key then we have to set proper speed text beside main Canvas Setup Button 
             {
-                var x = PlayerPrefs.GetInt("Level1Speed");
-                //const int slow = levelOneSlowSpeed;
-                Debug.Log("ScoreKeeper: speed key found in start " + x);
+                //Debug.Log("ScoreKeeper: speed key found in start " + x);
                 //genRandomBackground.objectSpeed = x;  // 3/6 move into switch/case below 
                 currentText = GameObject.Find("CurrentText").GetComponent<TextMeshProUGUI>();
+                var x = PlayerPrefs.GetInt("Level1Speed");
                 switch (x)
                 {
                     case 1:       //this has to reference the public int variable    i.e.     public int levelOneSlowSpeed = 90;  110, 130 etc
@@ -307,7 +255,71 @@ public class ScoreKeeper : MonoBehaviour
     //{
 
     //}
+    void SetUpJoyStickPosition()
+    {   //Only based on PlayerPref found on/in Start() -- Button prompted changes handled in "OnButton..." methods
+        //However Scene1 (SpaceJunkSweeper) 
+        //Debug.Log("from Prefs our joystick position is " + joyStickPosition);
 
+        joyStickCanvasRight.SetActive(false);
+        joyStickCanvasCenter.SetActive(false);
+        joyStickCanvasLeft.SetActive(false);
+        var joyStickPosition = PlayerPrefs.GetInt("JoyStickPosition");
+
+        switch (joyStickPosition)
+        {    // here (in each case) we need to decide to manipulate canvases or reposition joystick on the same canvas 
+             // and we need to handle both level 1 and 2 main canvases - next time we won't put ANYthing in the player control UI area :<
+
+            case 1:
+                Debug.Log("stick position is RIGHT");
+                if (levelInProgress == 1)
+                {
+                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
+                    // here we need to see comments above  // below is draft of changing the text of jstick position
+                    if (joyStickCenterText) joyStickCenterText.SetActive(false);
+                    if (joyStickLeftText) joyStickLeftText.SetActive(false);
+                    if (joyStickRightText) joyStickRightText.SetActive(true);
+                }
+
+               // SetJoyStickCanvas(true);
+                break;
+            case 2:
+                Debug.Log("stick position is CENTER");
+                if (levelInProgress == 1)
+                {
+                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
+                    if (joyStickCenterText) joyStickCenterText.SetActive(true);
+                    if (joyStickLeftText) joyStickLeftText.SetActive(false);
+                    if (joyStickRightText) joyStickRightText.SetActive(false);
+                }
+
+               // SetJoyStickCanvas(true);
+                break;
+            case 3:
+                Debug.Log("stick position is LEFT");
+                switch (levelInProgress)
+                {
+                    case 1:
+                        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
+                        if (joyStickCenterText) joyStickCenterText.SetActive(false);
+                        if (joyStickLeftText) joyStickLeftText.SetActive(true);
+                        if (joyStickRightText) joyStickRightText.SetActive(false);
+                        break;
+                    case 2:
+                        Transform rectNew = level2ShieldBackground.GetComponent<RectTransform>();
+                        Vector3 newTransform = new Vector3(1164f, rectNew.position.y, 0f);
+
+                        Debug.Log("level2ShieldBackground.x and .y  = " + rectNew.position.x + "  " + rectNew.position.y);
+                        level2ShieldBackground.transform.position = newTransform;
+                        break;
+                }
+                break;
+            default:
+                Debug.Log("stick position is RIGHT -- defaulted uh oh");
+                break;
+
+        }
+        SetJoyStickCanvas(true);  //placed here to eliminate redundancy in the switch/case logic 
+    }
     public void CheckForLevel1ScoreStatsPlayerPrefs() //
     {
         if (!PlayerPrefs.HasKey("BestHitsScore")) //1st time played or keys deleted... int hitsScore, int teslaHitsScore, int satsAliveScore

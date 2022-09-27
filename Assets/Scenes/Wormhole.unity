@@ -865,7 +865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 259, y: -205.61}
+  m_AnchoredPosition: {x: 0, y: -205.61}
   m_SizeDelta: {x: 268.39, y: 38.785}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &67793877
@@ -1802,7 +1802,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165404
+  m_Name: pb_Mesh-44526
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7065,7 +7065,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165440
+  m_Name: pb_Mesh-44562
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12769,7 +12769,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165352
+  m_Name: pb_Mesh-44474
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13944,7 +13944,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-164950
+  m_Name: pb_Mesh-44072
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15098,7 +15098,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165316
+  m_Name: pb_Mesh-44438
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16397,7 +16397,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-164962
+  m_Name: pb_Mesh-44084
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17493,7 +17493,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165364
+  m_Name: pb_Mesh-44486
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17756,7 +17756,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165416
+  m_Name: pb_Mesh-44538
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -18127,7 +18127,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165328
+  m_Name: pb_Mesh-44450
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -18904,7 +18904,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165376
+  m_Name: pb_Mesh-44498
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19309,6 +19309,7 @@ MonoBehaviour:
   wormholeSceneInfoButton: {fileID: 2019041553}
   gOShipSpeedSlider: {fileID: 0}
   level2HighScore: {fileID: 958718263}
+  level2ShieldBackground: {fileID: 205908741}
 --- !u!4 &1583807017
 Transform:
   m_ObjectHideFlags: 0
@@ -19762,7 +19763,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165210
+  m_Name: pb_Mesh-44332
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -21359,7 +21360,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165428
+  m_Name: pb_Mesh-44550
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -21828,7 +21829,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-165340
+  m_Name: pb_Mesh-44462
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22066,7 +22067,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1, y: -43.914093, z: 9.5e-43, w: 8.3e-44}
+  m_BoundingSphereOverride: {x: 8.34e-43, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
