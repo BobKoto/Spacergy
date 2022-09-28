@@ -370,7 +370,7 @@ public class ScoreKeeper : MonoBehaviour
     public void EnableRestartButtonAndStopAudio()
     {
         // Debug.Log("Turning Restart Button ON...");
-        restartButton.SetActive(true); //We know the game continues to PLAY... but not since we fixed static num of objs issue 
+        if (restartButton) restartButton.SetActive(true); //May never use this anymore  
         if (exitButton) exitButton.SetActive(true);  // 2/6/22
         if (levelInProgress == 1)
         {
