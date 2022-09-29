@@ -269,47 +269,53 @@ public class ScoreKeeper : MonoBehaviour
         {    // here (in each case) we need to decide to manipulate canvases or reposition joystick on the same canvas 
              // and we need to handle both level 1 and 2 main canvases - next time we won't put ANYthing in the player control UI area :<
 
-            case 1:
+            case 1:  //Right
                 Debug.Log("stick position is RIGHT");
-                if (levelInProgress == 1)
-                {
+                //if (levelInProgress == 1)
+                //{
                     joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
                     // here we need to see comments above  // below is draft of changing the text of jstick position
                     if (joyStickCenterText) joyStickCenterText.SetActive(false);
                     if (joyStickLeftText) joyStickLeftText.SetActive(false);
                     if (joyStickRightText) joyStickRightText.SetActive(true);
-                }
+                    //Move the shield indicator to the LEFT
+
+                //}
 
                // SetJoyStickCanvas(true);
                 break;
-            case 2:
+            case 2: //Center
                 Debug.Log("stick position is CENTER");
-                if (levelInProgress == 1)
-                {
+                //if (levelInProgress == 1)
+                //{
                     joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
                     if (joyStickCenterText) joyStickCenterText.SetActive(true);
                     if (joyStickLeftText) joyStickLeftText.SetActive(false);
                     if (joyStickRightText) joyStickRightText.SetActive(false);
-                }
+                    //Move the shield indicator to the LEFT
 
-               // SetJoyStickCanvas(true);
+                //}
+
+                // SetJoyStickCanvas(true);
                 break;
-            case 3:
+            case 3: //Left
                 Debug.Log("stick position is LEFT");
-                switch (levelInProgress)
+                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
+                if (joyStickCenterText) joyStickCenterText.SetActive(false);
+                if (joyStickLeftText) joyStickLeftText.SetActive(true);
+                if (joyStickRightText) joyStickRightText.SetActive(false);
+                switch (levelInProgress)  //leave Case 1 for now 
                 {
                     case 1:
-                        joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
-                        if (joyStickCenterText) joyStickCenterText.SetActive(false);
-                        if (joyStickLeftText) joyStickLeftText.SetActive(true);
-                        if (joyStickRightText) joyStickRightText.SetActive(false);
+
                         break;
                     case 2:
+                        //Move the shield indicator to the RIGHT (only when the joystick goes to LEFT)
                         Transform rectNew = level2ShieldBackground.GetComponent<RectTransform>();
-                        Vector3 newTransform = new Vector3(1164f, rectNew.position.y, 0f);
+                        Vector3 newTransform = new Vector3(726f, rectNew.position.y, 0f);  //Move indicator to RIGHT  //was 1164
 
                         Debug.Log("level2ShieldBackground.x and .y  = " + rectNew.position.x + "  " + rectNew.position.y);
-                        level2ShieldBackground.transform.position = newTransform;
+                        level2ShieldBackground.transform.position = newTransform;  //Here is the move to RIGHT
                         break;
                 }
                 break;
@@ -370,7 +376,7 @@ public class ScoreKeeper : MonoBehaviour
     public void EnableRestartButtonAndStopAudio()
     {
         // Debug.Log("Turning Restart Button ON...");
-        if (restartButton) restartButton.SetActive(true); //May never use this anymore  
+        if (restartButton) restartButton.SetActive(true); //Restored on 9/28/22   
         if (exitButton) exitButton.SetActive(true);  // 2/6/22
         if (levelInProgress == 1)
         {
@@ -481,7 +487,7 @@ public class ScoreKeeper : MonoBehaviour
                 shipSpeedSlider.value = PlayerPrefs.GetFloat("Level2ShipSpeed");
                 //  Debug.Log("slider set to Key");
             }
-            Debug.Log("Ship Speed slider found in ONSetup");
+            //Debug.Log("Ship Speed slider found in ONSetup");
             shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
             firstPersonController = GameObject.Find("Player").GetComponent<FirstPersonController>();
             shipSpeedValueText.text = shipSpeedSlider.value.ToString("##.#");
@@ -680,6 +686,7 @@ public class ScoreKeeper : MonoBehaviour
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
         //var jx = joyStick.GetComponent<RectTransform>().position.x;
         //Debug.Log("stick RIGHT position is x value of the rect  " + jx + "  js = " + joyStick);
+        SetUpJoyStickPosition();
 
     }
     public void OnButtonJoyStickCenterPressed()
@@ -695,6 +702,7 @@ public class ScoreKeeper : MonoBehaviour
 
         //jx = 500f;
         //Debug.Log("stick CENTER position is x value of the rect  " + jx + "  js = " + joyStick);
+        SetUpJoyStickPosition();
     }
     public void OnButtonJoyStickLeftPressed()
     {
@@ -707,6 +715,7 @@ public class ScoreKeeper : MonoBehaviour
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
         //var jx = joyStick.GetComponent<RectTransform>().position.x;
         //Debug.Log("stick LEFT position is x value of the rect  " + jx + "  js = " + joyStick);
+        SetUpJoyStickPosition();
     }
 
     private void SetJoyStickCanvas(bool canvasSwitcher)
