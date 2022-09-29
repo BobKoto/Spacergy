@@ -138,17 +138,11 @@ public class ScoreKeeper : MonoBehaviour
         levelInProgress = SceneManager.GetActiveScene().buildIndex - 1; //subtract 1 to account for setup scenes 0 and 1 so we get 1 for level1, etc
                                                                         // if (SceneManager.GetActiveScene().buildIndex == 2)  // 3/27/22 start of segregating levels 1 and 2 
 
-        //if (levelInProgress == 2)  // temp test 
-        //{
-        //    Transform rectNew = level2ShieldBackground.GetComponent<RectTransform>();
-        //    Vector3 newTransform = new Vector3(1164f, rectNew.position.y, 0f);
 
-        //    Debug.Log("level2ShieldBackground.x and .y  = " + rectNew.position.x + "  " + rectNew.position.y);
-        //    level2ShieldBackground.transform.position = newTransform;
-        //}
-        //else Debug.Log("WTF  levelInProgress = " + levelInProgress);
-
+        if (levelInProgress == 2) mainCanvas.SetActive(false);   //kludge for L2 why it is needed and why it works IDK yet 
         SetUpJoyStickPosition();
+        SetJoyStickCanvas(true);
+        if (levelInProgress == 2) mainCanvas.SetActive(true);    //kludge for L2 why it is needed and why it works IDK yet 
 
         if (levelInProgress == 1)
         {
@@ -271,32 +265,40 @@ public class ScoreKeeper : MonoBehaviour
 
             case 1:  //Right
                 Debug.Log("stick position is RIGHT");
-                //if (levelInProgress == 1)
-                //{
-                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
-                    // here we need to see comments above  // below is draft of changing the text of jstick position
-                    if (joyStickCenterText) joyStickCenterText.SetActive(false);
-                    if (joyStickLeftText) joyStickLeftText.SetActive(false);
-                    if (joyStickRightText) joyStickRightText.SetActive(true);
-                    //Move the shield indicator to the LEFT
-
-                //}
-
-               // SetJoyStickCanvas(true);
+                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
+                // here we need to see comments above  // below is draft of changing the text of jstick position
+                if (joyStickCenterText) joyStickCenterText.SetActive(false);
+                if (joyStickLeftText) joyStickLeftText.SetActive(false);
+                if (joyStickRightText) joyStickRightText.SetActive(true);
+                switch (levelInProgress)  //leave Case 1 for now 
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        //Move the shield indicator to the LEFT (when joystick goes to CENTER or RIGHT)
+                        Transform rectNewRect = level2ShieldBackground.GetComponent<RectTransform>();
+                        Vector3 newTransform = new Vector3(69.62f, rectNewRect.position.y, 0f);  //Move indicator to RIGHT  //was 1164
+                        level2ShieldBackground.transform.position = newTransform;  //Here is the move to RIGHT
+                        break;
+                }
                 break;
             case 2: //Center
                 Debug.Log("stick position is CENTER");
-                //if (levelInProgress == 1)
-                //{
-                    joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
-                    if (joyStickCenterText) joyStickCenterText.SetActive(true);
-                    if (joyStickLeftText) joyStickLeftText.SetActive(false);
-                    if (joyStickRightText) joyStickRightText.SetActive(false);
-                    //Move the shield indicator to the LEFT
-
-                //}
-
-                // SetJoyStickCanvas(true);
+                joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
+                if (joyStickCenterText) joyStickCenterText.SetActive(true);
+                if (joyStickLeftText) joyStickLeftText.SetActive(false);
+                if (joyStickRightText) joyStickRightText.SetActive(false);
+                switch (levelInProgress)  //leave Case 1 for now 
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        //Move the shield indicator to the LEFT (when joystick goes to CENTER or RIGHT)
+                        Transform rectNewRect = level2ShieldBackground.GetComponent<RectTransform>();
+                        Vector3 newTransform = new Vector3(69.62f, rectNewRect.position.y, 0f);  //Move indicator to RIGHT  //was 1164
+                        level2ShieldBackground.transform.position = newTransform;  //Here is the move to RIGHT
+                        break;
+                }
                 break;
             case 3: //Left
                 Debug.Log("stick position is LEFT");
@@ -311,10 +313,15 @@ public class ScoreKeeper : MonoBehaviour
                         break;
                     case 2:
                         //Move the shield indicator to the RIGHT (only when the joystick goes to LEFT)
-                        Transform rectNew = level2ShieldBackground.GetComponent<RectTransform>();
-                        Vector3 newTransform = new Vector3(726f, rectNew.position.y, 0f);  //Move indicator to RIGHT  //was 1164
+                        Transform rectNewRect = level2ShieldBackground.GetComponent<RectTransform>();
+                        //Debug.Log("rectNewRect = " + rectNewRect.position.x + "  " + rectNewRect.position.y);
+                        //Transform rectNewTrans = level2ShieldBackground.GetComponent<Transform>();
+                        //Debug.Log("rectNewTrans = " + rectNewTrans.position.x + "  " + rectNewTrans.position.y);
+                        Vector3 newTransform = new Vector3(731.5f, rectNewRect.position.y, 0f);  //Move indicator to RIGHT  //was 1164
 
-                        Debug.Log("level2ShieldBackground.x and .y  = " + rectNew.position.x + "  " + rectNew.position.y);
+                        //Debug.Log("v3 newTransform on set x to 731.5  = " + newTransform);
+                        //Debug.Log("level2ShieldBackground.x and .y  = " + rectNewRect.position.x + "  " + rectNewRect.position.y);
+
                         level2ShieldBackground.transform.position = newTransform;  //Here is the move to RIGHT
                         break;
                 }
@@ -324,7 +331,7 @@ public class ScoreKeeper : MonoBehaviour
                 break;
 
         }
-        SetJoyStickCanvas(true);  //placed here to eliminate redundancy in the switch/case logic 
+        //SetJoyStickCanvas(true);  //placed here to eliminate redundancy in the switch/case logic 
     }
     public void CheckForLevel1ScoreStatsPlayerPrefs() //
     {
@@ -514,6 +521,7 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.Play();
         speedSelectorCanvas.SetActive(false);   //NOTE: Reuse of Level1 JunkScene
         mainCanvas.SetActive(true);
+        SetJoyStickCanvas(true);
     }
     public void OnSetupButtonPressed()     //setupButton is in mainCanvas  -- here we also show joystick positioning buttons
     {
@@ -564,6 +572,7 @@ public class ScoreKeeper : MonoBehaviour
         audioSource.Play();
         speedSelectorCanvas.SetActive(false);
         mainCanvas.SetActive(true);
+        SetJoyStickCanvas(true);
         currentText = GameObject.Find("CurrentText").GetComponent<TextMeshProUGUI>();
         speedNumber = GameObject.Find("SpeedNumber").GetComponent<TextMeshProUGUI>();
         var x = PlayerPrefs.GetInt("Level1Speed");
@@ -680,9 +689,9 @@ public class ScoreKeeper : MonoBehaviour
         if (joyStickCenterText) joyStickCenterText.SetActive(false);
         if (joyStickLeftText) joyStickLeftText.SetActive(false);
         if (joyStickRightText) joyStickRightText.SetActive(true);
-        SetJoyStickCanvas(false);
+      //  SetJoyStickCanvas(false);
         PlayerPrefs.SetInt("JoyStickPosition", 1);
-        SetJoyStickCanvas(true);
+      //  SetJoyStickCanvas(true);
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jRight;
         //var jx = joyStick.GetComponent<RectTransform>().position.x;
         //Debug.Log("stick RIGHT position is x value of the rect  " + jx + "  js = " + joyStick);
@@ -694,9 +703,9 @@ public class ScoreKeeper : MonoBehaviour
         if (joyStickCenterText) joyStickCenterText.SetActive(true);
         if (joyStickLeftText) joyStickLeftText.SetActive(false);
         if (joyStickRightText) joyStickRightText.SetActive(false);
-        SetJoyStickCanvas(false);
+      //  SetJoyStickCanvas(false);
         PlayerPrefs.SetInt("JoyStickPosition", 2);
-        SetJoyStickCanvas(true);
+      //  SetJoyStickCanvas(true);
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jCenter;
         //var jx = joyStick.GetComponent<RectTransform>().position.x;
 
@@ -709,9 +718,9 @@ public class ScoreKeeper : MonoBehaviour
         if (joyStickCenterText) joyStickCenterText.SetActive(false);
         if (joyStickLeftText) joyStickLeftText.SetActive(true);
         if (joyStickRightText) joyStickRightText.SetActive(false);
-        SetJoyStickCanvas(false);
+    //    SetJoyStickCanvas(false);
         PlayerPrefs.SetInt("JoyStickPosition", 3);
-        SetJoyStickCanvas(true);
+    //    SetJoyStickCanvas(true);
         joyStickPositionTextOnMain.GetComponent<TextMeshProUGUI>().text = jLeft;
         //var jx = joyStick.GetComponent<RectTransform>().position.x;
         //Debug.Log("stick LEFT position is x value of the rect  " + jx + "  js = " + joyStick);
