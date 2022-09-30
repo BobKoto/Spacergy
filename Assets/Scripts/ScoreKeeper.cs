@@ -14,7 +14,7 @@ public class ScoreKeeper : MonoBehaviour
     public GameObject junkInfoCanvasPart, wormholeInfoCanvasPart, canvas3DObjects, mainCanvas, speedSelectorCanvas, canvasStatsLevel1;
     public static bool startNextLevel;
     public bool doATestReset;
-    static TextMeshProUGUI scoreText, shipSpeedValueText, missionAccomplishedText, timerText, goInfoText, currentText, collectBonusText;
+    static TextMeshProUGUI scoreText,  missionAccomplishedText, timerText, goInfoText, currentText, collectBonusText; //shipSpeedValueText,
     TextMeshProUGUI speedNumber;
     public TextMeshProUGUI highScore;   //for now just a little display on bottom of level1 playing scene
 
@@ -91,6 +91,9 @@ public class ScoreKeeper : MonoBehaviour
     public GameObject gOShipSpeedSlider;
     public TextMeshProUGUI level2HighScore;   //for now just a little display on bottom of level2 playing scene
     public GameObject level2ShieldBackground;
+    public TextMeshProUGUI moveSpeedText; // for main Canvas 
+    public TextMeshProUGUI shipSpeedValueText; 
+   // public Slider gO
 
     public delegate void GoPressed();
     public static event GoPressed GoButtonPressed;
@@ -233,11 +236,17 @@ public class ScoreKeeper : MonoBehaviour
                 labelForNewBestTotalScore.enabled = false;
                 CheckForLevel1ScoreStatsPlayerPrefs();
                 break;
-            case 2:
-                // if needed to do something w/Wormhole/Level 2
-                // Debug.Log("Skeeper switch is in LEVEL2");
+            case 2:  
                 CheckForLevel2ScoreStatsPlayerPrefs();
                 SetLevel2ShipSpeed();
+                // 9/29/22 add text for MoveSpeedText on to MainCanvas
+                // shipSpeedValueText.text = 
+                if (gOShipSpeedSlider)
+                {
+                    shipSpeedSlider = gOShipSpeedSlider.GetComponent<Slider>();
+                    // Debug.Log("Got the slider ...");
+                }
+                moveSpeedText.text =  shipSpeedSlider.value.ToString("##.#");
                 break;
             default:
                 break;
@@ -464,6 +473,8 @@ public class ScoreKeeper : MonoBehaviour
         if (PlayerPrefs.HasKey("Level2ShipSpeed"))
         {
             firstPersonController.MoveSpeed = PlayerPrefs.GetFloat("Level2ShipSpeed");    // shipSpeedValueText.text = shipSpeedSlider.value.ToString();
+            shipSpeedSlider = gOShipSpeedSlider.GetComponent<Slider>();
+            shipSpeedSlider.value = PlayerPrefs.GetFloat("Level2ShipSpeed");  // 9/29/22 
         }
         else
         {
@@ -481,7 +492,7 @@ public class ScoreKeeper : MonoBehaviour
             speedSelectorCanvas.SetActive(true);
             // Debug.Log("activate speed selector canvas");
         }
-        gOShipSpeedSlider = GameObject.Find("ShipSpeedSlider");
+        //gOShipSpeedSlider = GameObject.Find("ShipSpeedSlider");
         if (gOShipSpeedSlider)
         {
             shipSpeedSlider = gOShipSpeedSlider.GetComponent<Slider>();
@@ -495,7 +506,7 @@ public class ScoreKeeper : MonoBehaviour
                 //  Debug.Log("slider set to Key");
             }
             //Debug.Log("Ship Speed slider found in ONSetup");
-            shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
+           // shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
             firstPersonController = GameObject.Find("Player").GetComponent<FirstPersonController>();
             shipSpeedValueText.text = shipSpeedSlider.value.ToString("##.#");
         }
@@ -508,8 +519,9 @@ public class ScoreKeeper : MonoBehaviour
         //    Debug.Log("ShipSpeedSlider moved :  " + value);
         firstPersonController = GameObject.Find("Player").GetComponent<FirstPersonController>();
         string v = shipSpeedSlider.value.ToString("##.#");
-        shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
+       // shipSpeedValueText = GameObject.Find("ShipSpeedText").GetComponent<TextMeshProUGUI>();
         shipSpeedValueText.text = v;
+        moveSpeedText.text = v;
         firstPersonController.MoveSpeed = shipSpeedSlider.value;
 
         PlayerPrefs.SetFloat("Level2ShipSpeed", shipSpeedSlider.value);
