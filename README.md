@@ -6,4 +6,6 @@ variation of endless runner (on Z axis)
 
 Uses most current Unity Input
 
-WIP a work in progress 
+WIP means a work in progress 
+
+This project is at prototype level and NOT refactored.
