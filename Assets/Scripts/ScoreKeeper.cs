@@ -92,7 +92,8 @@ public class ScoreKeeper : MonoBehaviour
     public TextMeshProUGUI level2HighScore;   //for now just a little display on bottom of level2 playing scene
     public GameObject level2ShieldBackground;
     public TextMeshProUGUI moveSpeedText; // for main Canvas 
-    public TextMeshProUGUI shipSpeedValueText; 
+    public TextMeshProUGUI shipSpeedValueText;
+    public int level2ShipMoveSpeed = 65;
    // public Slider gO
 
     public delegate void GoPressed();
@@ -470,16 +471,18 @@ public class ScoreKeeper : MonoBehaviour
     public void SetLevel2ShipSpeed()
     {
         firstPersonController = GameObject.Find("Player").GetComponent<FirstPersonController>();
-        if (PlayerPrefs.HasKey("Level2ShipSpeed"))
-        {
-            firstPersonController.MoveSpeed = PlayerPrefs.GetFloat("Level2ShipSpeed");    // shipSpeedValueText.text = shipSpeedSlider.value.ToString();
-            shipSpeedSlider = gOShipSpeedSlider.GetComponent<Slider>();
-            shipSpeedSlider.value = PlayerPrefs.GetFloat("Level2ShipSpeed");  // 9/29/22 
-        }
-        else
-        {
-            PlayerPrefs.SetFloat("Level2ShipSpeed", firstPersonController.MoveSpeed);
-        }
+        firstPersonController.MoveSpeed = level2ShipMoveSpeed;
+        // Below deimplemented on 10/1/22 as we decided to just go with a ship move speed of 65 -- working on old (8 years) and newer (3 years) devices
+        //if (PlayerPrefs.HasKey("Level2ShipSpeed"))
+        //{
+        //    firstPersonController.MoveSpeed = PlayerPrefs.GetFloat("Level2ShipSpeed");    // shipSpeedValueText.text = shipSpeedSlider.value.ToString();
+        //    shipSpeedSlider = gOShipSpeedSlider.GetComponent<Slider>();
+        //    shipSpeedSlider.value = PlayerPrefs.GetFloat("Level2ShipSpeed");  // 9/29/22 
+        //}
+        //else
+        //{
+        //    PlayerPrefs.SetFloat("Level2ShipSpeed", firstPersonController.MoveSpeed);
+        //}
     }
     public void OnWormholeSetupButtonPressed()     //setupButton is in mainCanvas  
     {
