@@ -8,4 +8,4 @@ Uses most current Unity Input
 
 WIP means a work in progress 
 
-This project is at prototype stage, and C# scripts NOT refactored. But it all works!
+This project is at prototype stage, and C# scripts NOT refactored. But it all works! (famous last words :] )
